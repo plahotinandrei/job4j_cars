@@ -30,8 +30,9 @@ public class UserRepository {
             session.getTransaction().commit();
         } catch (Exception e) {
             session.getTransaction().rollback();
+        } finally {
+            session.close();
         }
-        session.close();
         return user;
     }
 
@@ -52,8 +53,9 @@ public class UserRepository {
             session.getTransaction().commit();
         } catch (Exception e) {
             session.getTransaction().rollback();
+        } finally {
+            session.close();
         }
-        session.close();
     }
 
     /**
@@ -71,8 +73,9 @@ public class UserRepository {
             session.getTransaction().commit();
         } catch (Exception e) {
             session.getTransaction().rollback();
+        } finally {
+            session.close();
         }
-        session.close();
     }
 
     /**
@@ -80,12 +83,19 @@ public class UserRepository {
      * @return список пользователей.
      */
     public List<User> findAllOrderById() {
-        List<User> users;
+        List<User> users = List.of();
         Session session = sessionFactory.openSession();
-        Query<User> query = session.createQuery(
-                "from User as u order by u.id desc", User.class);
-        users = query.getResultList();
-        session.close();
+        try {
+            session.beginTransaction();
+            Query<User> query = session.createQuery(
+                    "FROM User AS u ORDER BY u.id DESC", User.class);
+            users = query.getResultList();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
         return users;
     }
 
@@ -94,13 +104,20 @@ public class UserRepository {
      * @return пользователь.
      */
     public Optional<User> findById(int userId) {
-        Optional<User> userOptional;
+        Optional<User> userOptional = Optional.empty();
         Session session = sessionFactory.openSession();
-        Query<User> query = session.createQuery(
-                "from User as u where u.id = :id", User.class);
-        query.setParameter("id", userId);
-        userOptional = Optional.of(query.uniqueResult());
-        session.close();
+        try {
+            session.beginTransaction();
+            Query<User> query = session.createQuery(
+                    "FROM User AS u WHERE u.id = :id", User.class);
+            query.setParameter("id", userId);
+            userOptional = Optional.of(query.uniqueResult());
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
         return userOptional;
     }
 
@@ -110,13 +127,20 @@ public class UserRepository {
      * @return список пользователей.
      */
     public List<User> findByLikeLogin(String key) {
-        List<User> users;
+        List<User> users = List.of();
         Session session = sessionFactory.openSession();
-        Query<User> query = session.createQuery(
-                "from User as u where u.login like :key", User.class);
-        query.setParameter("key", "%" + key + "%");
-        users = query.getResultList();
-        session.close();
+        try {
+            session.beginTransaction();
+            Query<User> query = session.createQuery(
+                    "FROM User AS u WHERE u.login LIKE :key", User.class);
+            query.setParameter("key", "%" + key + "%");
+            users = query.getResultList();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
         return users;
     }
 
@@ -126,13 +150,20 @@ public class UserRepository {
      * @return Optional or user.
      */
     public Optional<User> findByLogin(String login) {
-        Optional<User> userOptional;
+        Optional<User> userOptional = Optional.empty();
         Session session = sessionFactory.openSession();
-        Query<User> query = session.createQuery(
-                "from User as u where u.login = :login", User.class);
-        query.setParameter("login", login);
-        userOptional = Optional.of(query.uniqueResult());
-        session.close();
+        try {
+            session.beginTransaction();
+            Query<User> query = session.createQuery(
+                    "FROM User AS u WHERE u.login = :login", User.class);
+            query.setParameter("login", login);
+            userOptional = Optional.of(query.uniqueResult());
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
         return userOptional;
     }
 }
