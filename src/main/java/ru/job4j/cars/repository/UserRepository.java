@@ -111,7 +111,7 @@ public class UserRepository {
             Query<User> query = session.createQuery(
                     "FROM User AS u WHERE u.id = :id", User.class);
             query.setParameter("id", userId);
-            userOptional = Optional.of(query.uniqueResult());
+            userOptional = query.uniqueResultOptional();
             session.getTransaction().commit();
         } catch (Exception e) {
             session.getTransaction().rollback();
@@ -157,7 +157,7 @@ public class UserRepository {
             Query<User> query = session.createQuery(
                     "FROM User AS u WHERE u.login = :login", User.class);
             query.setParameter("login", login);
-            userOptional = Optional.of(query.uniqueResult());
+            userOptional = query.uniqueResultOptional();
             session.getTransaction().commit();
         } catch (Exception e) {
             session.getTransaction().rollback();
