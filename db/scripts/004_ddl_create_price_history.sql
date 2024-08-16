@@ -1,3 +1,5 @@
+--liquibase formatted sql
+--changeset plahotinandrei:4
 create table price_history(
    id serial primary key,
    before bigint not null,

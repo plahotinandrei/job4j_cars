@@ -1,3 +1,5 @@
+--liquibase formatted sql
+--changeset plahotinandrei:1
 create table auto_user (
     id        serial primary key,
     login     varchar unique not null,

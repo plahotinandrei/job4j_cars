@@ -1,3 +1,5 @@
+--liquibase formatted sql
+--changeset plahotinandrei:2
 create table auto_post (
     id            serial primary key,
     description   varchar                       not null,
