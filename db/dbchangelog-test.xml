@@ -12,4 +12,5 @@
     <include file="scripts/008_ddl_create_owners.sql" relativeToChangelogFile="true"/>
     <include file="scripts/009_ddl_create_history_owners.sql" relativeToChangelogFile="true"/>
     <include file="scripts/010_ddl_alter_auto_post.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/011_ddl_alter_history_owners.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>
