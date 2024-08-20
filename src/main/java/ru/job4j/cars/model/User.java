@@ -1,12 +1,14 @@
 package ru.job4j.cars.model;
 
-import lombok.Data;
-
+import lombok.*;
 import javax.persistence.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "auto_user")
-@Data
 public class User {
 
     @Id

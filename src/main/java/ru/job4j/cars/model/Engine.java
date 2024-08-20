@@ -16,8 +16,4 @@ public class Engine {
     private int id;
 
     private String name;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "car_id")
-    private Car car;
 }

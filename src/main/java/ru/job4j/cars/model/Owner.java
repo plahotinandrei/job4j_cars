@@ -2,12 +2,13 @@ package ru.job4j.cars.model;
 
 import lombok.*;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "owners")
 public class Owner {
@@ -22,4 +23,7 @@ public class Owner {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner", cascade = CascadeType.REMOVE)
+    private List<HistoryOwner> history = new ArrayList<>();
 }

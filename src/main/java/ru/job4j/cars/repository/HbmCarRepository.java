@@ -31,13 +31,13 @@ public class HbmCarRepository implements CarRepository {
 
     @Override
     public List<Car> findAll() {
-        return crudRepository.query("from Car c JOIN FETCH c.engine LEFT JOIN FETCH c.owners", Car.class);
+        return crudRepository.query("from Car c JOIN FETCH c.engine", Car.class);
     }
 
     @Override
     public Optional<Car> findById(int id) {
         return crudRepository.optional(
-                "from Car c JOIN FETCH c.engine where c.id=:id",
+                "from Car c JOIN FETCH c.engine LEFT JOIN FETCH c.history h JOIN FETCH h.owner where c.id=:id",
                 Car.class, Map.of("id", id)
         );
     }
@@ -58,12 +58,11 @@ public class HbmCarRepository implements CarRepository {
     public boolean delete(int id) {
         boolean rsl = false;
         Optional<Car> carOptional = crudRepository.optional(
-                "from Car c LEFT JOIN FETCH c.owners where c.id=:id",
+                "from Car c LEFT JOIN FETCH c.history where c.id=:id",
                 Car.class, Map.of("id", id)
         );
         if (carOptional.isPresent()) {
             Car car = carOptional.get();
-            car.getOwners().clear();
             try {
                 crudRepository.run(session -> session.remove(car));
                 rsl = true;

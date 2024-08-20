@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import ru.job4j.cars.model.Car;
 import ru.job4j.cars.model.Owner;
 import java.util.Map;
 import java.util.Optional;
@@ -38,6 +39,20 @@ public class HbmOwnerRepository implements OwnerRepository {
 
     @Override
     public boolean delete(int id) {
-        return crudRepository.run("DELETE Owner WHERE id = :id", Map.of("id", id));
+        boolean rsl = false;
+        Optional<Owner> ownerOptional = crudRepository.optional(
+                "from Owner c LEFT JOIN FETCH c.history where c.id=:id",
+                Owner.class, Map.of("id", id)
+        );
+        if (ownerOptional.isPresent()) {
+            Owner owner = ownerOptional.get();
+            try {
+                crudRepository.run(session -> session.remove(owner));
+                rsl = true;
+            } catch (Exception e) {
+                LOG.error("Failed to remove car", e);
+            }
+        }
+        return rsl;
     }
 }
