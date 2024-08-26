@@ -19,8 +19,7 @@ public class UserRepository {
      * @return пользователь с id.
      */
     public User create(User user) {
-        int id = crudRepository.tx(session -> (int) session.save(user));
-        user.setId(id);
+        crudRepository.run(session -> session.persist(user));
         return user;
     }
 
