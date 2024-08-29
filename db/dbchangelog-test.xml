@@ -19,4 +19,5 @@
     <include file="scripts/014_ddl_create_models.sql" relativeToChangelogFile="true"/>
     <include file="scripts/015_dml_insert_models.sql" relativeToChangelogFile="true"/>
     <include file="scripts/016_ddl_alter_car.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/017_dml_insert_engine.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

@@ -32,7 +32,7 @@ public class HbmOwnerRepository implements OwnerRepository {
     @Override
     public Optional<Owner> findById(int id) {
         return crudRepository.optional(
-                "from Owner where id=:id",
+                "from Owner o JOIN FETCH o.user where o.id=:id",
                 Owner.class, Map.of("id", id)
         );
     }

@@ -75,7 +75,7 @@ public class HbmHistoryOwnerRepository implements HistoryOwnerRepository {
     public boolean endOwnership(int id, LocalDateTime endAt) {
         boolean rsl = false;
         Optional<HistoryOwner> historyOptional = crudRepository.optional(
-                "from HistoryOwner where c.id=:id",
+                "from HistoryOwner where id=:id",
                 HistoryOwner.class, Map.of("id", id)
         );
         if (historyOptional.isPresent()) {

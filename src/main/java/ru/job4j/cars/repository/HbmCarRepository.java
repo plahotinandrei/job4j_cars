@@ -31,13 +31,13 @@ public class HbmCarRepository implements CarRepository {
 
     @Override
     public List<Car> findAll() {
-        return crudRepository.query("from Car c JOIN FETCH c.engine", Car.class);
+        return crudRepository.query("from Car c JOIN FETCH c.engine JOIN FETCH c.model", Car.class);
     }
 
     @Override
     public Optional<Car> findById(int id) {
         return crudRepository.optional(
-                "from Car c JOIN FETCH c.engine LEFT JOIN FETCH c.history h JOIN FETCH h.owner where c.id=:id",
+                "from Car c JOIN FETCH c.engine JOIN FETCH c.model LEFT JOIN FETCH c.history h LEFT JOIN FETCH h.owner where c.id=:id",
                 Car.class, Map.of("id", id)
         );
     }
